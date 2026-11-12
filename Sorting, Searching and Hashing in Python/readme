@@ -1,0 +1,89 @@
+# Sorting, Searching and Hashing in Python
+
+Two small Python projects that implement classic algorithms from scratch, with logs, reports and output screenshots.
+
+- **Task 1:** Quicksort and Mergesort (divide and conquer)
+- **Task 2:** Linear Search, Binary Search and a modulo-based Hash Table
+
+No external libraries are needed. Python 3.8+ is enough.
+
+## Repository structure
+
+```
+.
+├── README.md
+├── sorting_algorithms.py          # Task 1: Quicksort + Mergesort
+├── mergesort_log.txt              # Task 1: intermediate Mergesort split/merge stages
+├── pivot_experiment.txt           # Task 1: last vs first element pivot comparison
+├── output_screenshot.png          # Task 1: sorted output of [5, 3, 8, 1, 2]
+├── search_hashing.py              # Task 2: searches + Hash Table
+├── hash_results.csv               # Task 2: hash indices for keys 12, 25, 19
+├── binary_search_screenshot.png   # Task 2: binary search for 5 in 2 comparisons
+└── collision_screenshot.png       # Task 2: collision on key 19 (chaining and probing)
+```
+
+## Sample dataset
+
+| Array index | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|
+| Initial value | 5 | 3 | 8 | 1 | 2 |
+| Sorted value | 1 | 2 | 3 | 5 | 8 |
+
+## Task 1: Quicksort and Mergesort
+
+Run:
+
+```bash
+python3 sorting_algorithms.py
+```
+
+This prints the sorted result for both algorithms and regenerates `mergesort_log.txt` and `pivot_experiment.txt`.
+
+**Quicksort** uses the last element as the pivot by default (`pivot_choice="last"`). Passing `"first"` uses the first element instead. It counts one step per element-vs-pivot comparison.
+
+**Mergesort** splits the array recursively until every piece is a single element, then merges the sorted pieces back together. The split and merge stages are written to `mergesort_log.txt`.
+
+**Result:** both algorithms sort `[5, 3, 8, 1, 2]` into `[1, 2, 3, 5, 8]`.
+
+**Pivot experiment (steps):**
+
+| Dataset | Last-element pivot | First-element pivot |
+|---|---|---|
+| `[5, 3, 8, 1, 2]` | 7 | 6 |
+| `[1, 2, 3, 5, 8]` (sorted) | 10 | 10 |
+| `[8, 5, 3, 2, 1]` (reverse sorted) | 10 | 10 |
+
+On sorted or reverse-sorted input, either pivot always picks the smallest or largest value. Each partition then removes only one element, which gives the O(n²) worst case. See `pivot_experiment.txt` for the full report.
+
+## Task 2: Search and Hashing
+
+Run:
+
+```bash
+python3 search_hashing.py binary   # search demos
+python3 search_hashing.py hash     # hashing demo, regenerates hash_results.csv
+python3 search_hashing.py          # both
+```
+
+**Linear Search** checks each element in order and works on unsorted data.
+
+**Binary Search** needs a sorted array. The middle index is `mid = (low + high) // 2`. Searching for 5 in `[1, 2, 3, 5, 8]`:
+
+1. `mid = (0 + 4) // 2 = 2`, value 3 is less than 5, so search the right half
+2. `mid = (3 + 4) // 2 = 3`, value 5 is found
+
+That is exactly 2 comparisons. Searching for 7 correctly reports that it is not present.
+
+**Hash Table** uses `hash(key) = key % 7` and supports two collision strategies, chaining and linear probing.
+
+| Key | Calculation | Index | Collision |
+|---|---|---|---|
+| 12 | 12 % 7 | 5 | no |
+| 25 | 25 % 7 | 4 | no |
+| 19 | 19 % 7 | 5 | yes (with 12) |
+
+When 19 collides with 12 at index 5, chaining stores `12 -> 19` in slot 5, while linear probing places 19 in slot 6.
+
+## Notes on the screenshots
+
+The `.png` files are terminal-style renders of the scripts' real output. To capture your own, run the commands above and take a screenshot of your terminal.
