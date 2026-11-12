@@ -1,0 +1,30 @@
+PIVOT EXPERIMENT: Quicksort, last element vs first element as pivot
+==================================================================
+Metric: number of comparisons of an element against the pivot
+(one 'step' = one comparison inside the partition loop).
+
+Dataset: sample  [5, 3, 8, 1, 2]
+  Last-element pivot : 7 steps -> [1, 2, 3, 5, 8]
+  First-element pivot: 6 steps -> [1, 2, 3, 5, 8]
+
+Dataset: already sorted  [1, 2, 3, 5, 8]
+  Last-element pivot : 10 steps -> [1, 2, 3, 5, 8]
+  First-element pivot: 10 steps -> [1, 2, 3, 5, 8]
+
+Dataset: reverse sorted  [8, 5, 3, 2, 1]
+  Last-element pivot : 10 steps -> [1, 2, 3, 5, 8]
+  First-element pivot: 10 steps -> [1, 2, 3, 5, 8]
+
+Findings
+--------
+1. On the required sample [5, 3, 8, 1, 2] the last-element pivot took
+   7 steps and the first-element pivot took 6 steps;
+   both sort correctly to [1, 2, 3, 5, 8]. The small difference comes from
+   how evenly each pivot splits this particular array.
+2. Pivot choice only matters when the data has structure. On already
+   sorted input, both a first-element and a last-element pivot always pick
+   the minimum or maximum, so each partition removes only one element and
+   the cost grows to n(n-1)/2 comparisons (O(n^2)).
+3. On reverse-sorted input the same degeneration happens, again for both
+   pivot choices. Neither choice is better in general; a random or
+   median-of-three pivot avoids these cases.

@@ -1,0 +1,17 @@
+Mergesort intermediate stages for [5, 3, 8, 1, 2]
+------------------------------------------------------------
+SPLIT  [5, 3, 8, 1, 2] -> [5, 3] | [8, 1, 2]
+  SPLIT  [5, 3] -> [5] | [3]
+    BASE   [5]  (single-element unit)
+    BASE   [3]  (single-element unit)
+  MERGE  [5] + [3] -> [3, 5]
+  SPLIT  [8, 1, 2] -> [8] | [1, 2]
+    BASE   [8]  (single-element unit)
+    SPLIT  [1, 2] -> [1] | [2]
+      BASE   [1]  (single-element unit)
+      BASE   [2]  (single-element unit)
+    MERGE  [1] + [2] -> [1, 2]
+  MERGE  [8] + [1, 2] -> [1, 2, 8]
+MERGE  [3, 5] + [1, 2, 8] -> [1, 2, 3, 5, 8]
+------------------------------------------------------------
+Final sorted result: [1, 2, 3, 5, 8]
